@@ -1,0 +1,113 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mysql"
+}
+
+model Customers {
+    customer_id Int @id @default(autoincrement())
+
+    first_name String
+
+    last_name String
+
+    email String
+
+    phone String
+
+    appointments Appointments[]
+
+    reviews Reviews[]
+}
+
+model Employees {
+    employee_id Int @id @default(autoincrement())
+
+    first_name String
+
+    last_name String
+
+    role String
+
+    appointments Appointments[]
+
+    availability Availability[]
+}
+
+model Service_category {
+    category_id Int @id @default(autoincrement())
+
+    category_name String
+
+    services Services[]
+}
+
+model Services {
+    service_id Int @id @default(autoincrement())
+
+    service_name String
+
+    duration_minutes Int
+
+    price Decimal @db.Decimal(10, 2)
+
+    category_id Int
+    category    Service_category @relation(fields: [category_id], references: [category_id])
+
+    appointments Appointments[]
+}
+
+model Appointments {
+    appointment_id Int @id @default(autoincrement())
+
+    date_time DateTime
+
+    status String
+
+    reviews Reviews[]
+
+    payments Payments[]
+
+    customer_id Int
+    customer    Customers @relation(fields: [customer_id], references: [customer_id])
+
+    employee_id Int
+    employee    Employees @relation(fields: [employee_id], references: [employee_id])
+
+    service_id Int
+    service    Services @relation(fields: [service_id], references: [service_id])
+}
+
+model Payments {
+    payment_id Int @id @default(autoincrement())
+
+    amount Decimal @db.Decimal(10, 2)
+
+    payment_method String?
+
+    appointment_id Int
+    appointment    Appointments @relation(fields: [appointment_id], references: [appointment_id])
+}
+
+model Reviews {
+    review_id Int @id @default(autoincrement())
+
+    rating Int
+
+    customer_id Int
+    customer    Customers @relation(fields: [customer_id], references: [customer_id])
+
+    appointment_id Int
+    appointment    Appointments @relation(fields: [appointment_id], references: [appointment_id])
+}
+
+model Availability {
+    availability_id Int @id @default(autoincrement())
+
+    day_of_week String
+
+    employee_id Int
+    employee    Employees @relation(fields: [employee_id], references: [employee_id])
+}
