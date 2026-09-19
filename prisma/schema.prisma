@@ -6,6 +6,12 @@ datasource db {
     provider = "mysql"
 }
 
+enum AppointmentStatus {
+    Confirmed
+    Cancelled
+    Payed
+}
+
 model Customers {
     customer_id Int @id @default(autoincrement())
 
@@ -64,7 +70,7 @@ model Appointments {
 
     date_time DateTime
 
-    status String
+    status AppointmentStatus @default(Confirmed)
 
     reviews Reviews[]
 
