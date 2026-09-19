@@ -6,23 +6,12 @@ const newServices = await client.services.create({
         duration_minutes: 30,
         price: "40.00",
         category: {
-         create:{
-            category_name: "Massaggio"
-         }
+            create: {
+                category_name: "Massaggio"
+            }
         }
     }
 }
 );
-
-
-/*const services1 = await client.services.findUnique({
-    where: {
-        id: 1
-    }
-});
-
-console.log(services1);
-*/
-
 
 await client.$disconnect();
